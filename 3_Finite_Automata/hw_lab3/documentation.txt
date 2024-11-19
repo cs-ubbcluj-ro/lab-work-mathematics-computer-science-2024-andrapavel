@@ -1,0 +1,14 @@
+file          ::= states_line alphabet_line start_line final_line transition_lines
+states_line   ::= "states:" state ("," state)* "\n"
+alphabet_line ::= "alphabet:" symbol ("," symbol)* "\n"
+start_line    ::= "start:" state "\n"
+final_line    ::= "final:" state "\n"
+transition_lines ::= transition ("\n" transition)* "\n"
+
+state         ::= identifier
+symbol        ::= identifier
+transition    ::= state "," symbol "->" state
+
+identifier    ::= letter (letter | digit)*
+letter        ::= "a" | "b" | ... | "z" | "A" | "B" | ... | "Z"
+digit         ::= "0" | "1" | ... | "9"
