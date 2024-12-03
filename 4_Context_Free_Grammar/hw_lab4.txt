@@ -1,0 +1,80 @@
+/// Set of Terminals (Σ)
+
+Reserved Words:
+"begin", "end", "int", "char", "if", "then", "else", "while", "do", "true", "false", "input", "output", "break", "struct".
+
+Operators:
++, -, *, /, %, =, <, <=, >, >=, ==, != .
+
+Separators:
+[, ], {, }, (, ), :, ;, space.
+
+Identifiers:
+A sequence of letters, digits, and underscores starting with a letter.
+
+Constants:
+Integer constants (intconst), character constants (charconst), and Boolean constants (boolconst).
+
+/// Set of Non-terminals (N)
+
+The start of the program:
+    program
+
+The set of non-terminals includes:
+
+    Program structure:
+    program, stmtlist, stmt, simplstmt, structstmt, declaration, type, struct_definition.
+
+    Assignments and expressions:
+    assignstmt, iostmt, expression, term, factor.
+
+    Conditions:
+    condition, relation.
+
+    Structures:
+    ifstmt, whilestmt, struct_body, fieldlist, field, accessfield.
+
+    Lexical elements:
+    identifier, letter_digit_sequence, integer, intconst, boolconst, charconst, digit.
+
+/// Productions (P)
+
+<program> -> "begin" <stmtlist> "end"
+
+<stmtlist> -> <stmt> | <stmt> ";" <stmtlist>
+
+<stmt> -> <simplstmt> | <structstmt>
+
+<simplstmt> -> <assignstmt> | <iostmt> | "break"
+<assignstmt> -> <identifier> "=" <expression>
+<iostmt> -> "input" "(" <identifier> ")" | "output" "(" <identifier> ")"
+
+<expression> -> <expression> "+" <term> | <expression> "-" <term> | <term>
+<term> -> <term> "*" <factor> | <term> "/" <factor> | <term> "%" <factor> | <factor>
+<factor> -> <identifier> | <intconst> | <charconst> | <boolconst> | "(" <expression> ")"
+
+<condition> -> <expression> <relation> <expression>
+<relation> -> "<" | "<=" | "=" | "!=" | ">=" | ">"
+
+<structstmt> -> <ifstmt> | <whilestmt> | <struct_definition>
+<ifstmt> -> "if" <condition> "then" <stmt> | "if" <condition> "then" <stmt> "else" <stmt>
+<whilestmt> -> "while" <condition> "do" <stmt>
+
+<struct_definition> -> "struct" <identifier> "{" <struct_body> "}"
+<struct_body> -> <fieldlist> | ε
+<fieldlist> -> <field> | <field> ";" <fieldlist>
+<field> -> <identifier> ":" <type>
+<accessfield> -> <identifier> "." <identifier>
+
+<declaration> -> <type> <identifier> ";"
+<type> -> "int" | "char"
+
+<identifier> -> <letter> <letter_digit_sequence>
+<letter_digit_sequence> -> ε | <letter> <letter_digit_sequence> | <digit> <letter_digit_sequence>
+<letter> -> "A" | "B" | ... | "Z" | "a" | "b" | ... | "z"
+<digit> -> "0" | "1" | ... | "9"
+
+<intconst> -> "+" <integer> | "-" <integer> | <integer>
+<integer> -> <digit> | <digit> <integer>
+<charconst> -> "'" (<letter> | <digit>) "'"
+<boolconst> -> "true" | "false"
